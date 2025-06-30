@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
@@ -9,6 +10,7 @@ const Register = () => {
   });
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,6 +25,7 @@ const Register = () => {
       const res = await axios.post("http://localhost:8080/api/auth/register", form);
       setSuccessMsg(res.data.msg || "Registered successfully!");
       setForm({ username: "", password: "", role: "INTERN" });
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.msg || "Registration failed");
     }

@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import{useAuth} from "../context/authContext"
 
 const Login = () => {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [token, setToken] = useState("");
+  const navigate = useNavigate()
+  const { login } = useAuth(); 
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,10 +25,11 @@ const Login = () => {
 
       setToken(token); // Save the token in state (or localStorage/sessionStorage)
       localStorage.setItem("token", token); // Optional: store for later use
+      localStorage.setItem("user", JSON.stringify(user)); // ✅ Save use
 
-      console.log("User:", user);
+      login(user, token); 
       alert("Login successful!");
-      // navigate("/dashboard") // if using React Router
+      navigate("/dashboard") // if using React Router
     } catch (err) {
       setError(err.response?.data?.msg || "Login failed");
     }
@@ -64,7 +69,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-black text-white py-2 rounded-lg  transition"
           >
             Login
           </button>
