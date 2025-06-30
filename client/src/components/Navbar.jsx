@@ -7,19 +7,19 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
-    <nav className="bg-black text-white px-6 py-3 flex justify-between items-center">
+    <nav className="bg-gray-800 text-white px-20 py-3 flex justify-between items-center fixed top-0 left-0 w-full">
       <Link to="/dashboard" className="text-blue-400 font-bold text-xl">
-        Workflow
+        MAPLANO
       </Link>
       <div className="space-x-4">
         {user ? (
           <>
-            <span>{user.username} ({user.role})</span>
-            <button onClick={handleLogout} className="text-red-400 hover:underline">Logout</button>
+            <span className="text-sm mr-10">{user.username} ({user.role})</span>
+            <button onClick={handleLogout} className="text-gray-200 font-bold hover:underline">Logout</button>
           </>
         ) : (
           <>

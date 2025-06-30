@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FaUser, FaLock } from "react-icons/fa";
 
 const Register = () => {
   const [form, setForm] = useState({
     username: "",
     password: "",
-    role: "INTERN", // default role; you can make it selectable
+    role: "INTERN",
   });
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -32,45 +33,50 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 w-screen">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black w-screen">
+      <div className="bg-gray-950 p-8 rounded-xl shadow-md w-[90%] md:w-[30%] border border-gray-700 text-white">
+        <h2 className="text-2xl font-bold text-center mb-6 text-white">Register</h2>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         {successMsg && <p className="text-green-500 text-sm mb-4">{successMsg}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm text-gray-600">Username</label>
+          {/* Username */}
+          <div className="flex items-center border border-gray-700 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+            <FaUser className="text-gray-400 mr-2" />
             <input
               type="text"
               name="username"
               value={form.username}
               onChange={handleChange}
+              placeholder="Username"
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full bg-transparent text-white outline-none"
             />
           </div>
 
-          <div>
-            <label className="block text-sm text-gray-600">Password</label>
+          {/* Password */}
+          <div className="flex items-center border border-gray-700 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+            <FaLock className="text-gray-400 mr-2" />
             <input
               type="password"
               name="password"
               value={form.password}
               onChange={handleChange}
+              placeholder="Password"
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full bg-transparent text-white outline-none"
             />
           </div>
 
+          {/* Role */}
           <div>
-            <label className="block text-sm text-gray-600">Role</label>
+            <label className="block text-sm text-gray-400 mb-1">Role</label>
             <select
               name="role"
               value={form.role}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border border-gray-700 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="INTERN">INTERN</option>
               <option value="DEVELOPER">DEVELOPER</option>
@@ -80,9 +86,10 @@ const Register = () => {
             </select>
           </div>
 
+          {/* Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white py-2 rounded-lg font-semibold transition"
           >
             Register
           </button>

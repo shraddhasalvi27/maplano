@@ -54,8 +54,9 @@ const JobForm = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow mt-6  w-screen">
-      <h3 className="text-xl font-bold mb-4">Create Job</h3>
+    <div className="bg-white rounded shadow w-screen  overflow-hidden pt-10">
+      <div className="p-10">
+        <h3 className="text-xl font-bold mb-4">Create Job</h3>
 
       {msg && <p className="text-sm mb-4 text-blue-600">{msg}</p>}
 
@@ -95,12 +96,15 @@ const JobForm = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           Create
         </button>
       </form>
-    </div>
+
+
+      </div>
+          </div>
   );
 };
 

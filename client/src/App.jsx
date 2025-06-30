@@ -7,17 +7,22 @@ import JobForm from "./components/JobForm";
 // import UserForm from "./components/UserForm";
 import { useAuth } from "./context/authContext";
 import Navbar from "./components/Navbar";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-black">
       {/* Optional Navbar */}
-      <Navbar />
+     {user && <Navbar />}
 
       <Routes>
         {/* Public Routes */}
+        <Route
+          path="/"
+          element={!user ? <LandingPage /> : <Navigate to="/dashboard" />}
+        />
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/dashboard" />}
