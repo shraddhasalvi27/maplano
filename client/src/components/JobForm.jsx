@@ -41,22 +41,22 @@ const JobForm = () => {
       await axios.post("http://localhost:8080/api/jobs", form, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setMsg("✅ Job created successfully!");
+      setMsg("Job created successfully!");
 
       // Clear form
       setForm({ title: "", description: "", assigned_to: "" });
 
-      // ✅ Redirect to dashboard
+     
       navigate("/dashboard");
     } catch (err) {
-      setMsg("❌ Error creating job");
+      setMsg(" Error creating job");
     }
   };
 
   return (
-    <div className="bg-white rounded shadow w-screen  overflow-hidden pt-10">
-      <div className="p-10">
-        <h3 className="text-xl font-bold mb-4">Create Job</h3>
+    <div className="bg-white rounded shadow w-screen h-screen overflow-hidden">
+      <div className="p-30">
+        <h3 className="text-3xl font-bold mb-4">Create Job</h3>
 
       {msg && <p className="text-sm mb-4 text-blue-600">{msg}</p>}
 

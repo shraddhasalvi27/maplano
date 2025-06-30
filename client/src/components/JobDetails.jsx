@@ -14,13 +14,13 @@ const JobDetail = () => {
 
   const isPrivileged = ["ADMIN", "MANAGER"].includes(user?.role);
 
-  // Fetch job details
   useEffect(() => {
     const fetchJob = async () => {
       const res = await axios.get(`http://localhost:8080/api/jobs/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setJob(res.data);
+      console.log(res.data.job)
+      setJob(res.data.job);
       setAssignedTo(res.data.assigned_to?._id || "");
       setStatus(res.data.status);
     };
@@ -28,7 +28,6 @@ const JobDetail = () => {
     fetchJob();
   }, [id, token]);
 
-  // Fetch all users (for reassignment)
   useEffect(() => {
     if (isPrivileged) {
       axios
@@ -40,32 +39,29 @@ const JobDetail = () => {
   }, [user, token]);
 
   const handleReassign = async (e) => {
-  e.preventDefault();
-  try {
-   await axios.put(
-  `http://localhost:8080/api/jobs/${id}/assign`,
-  { userId: assignedTo },
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+    e.preventDefault();
+    try {
+      await axios.put(
+        `http://localhost:8080/api/jobs/${id}/assign`,
+        { userId: assignedTo },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert("Job reassigned successfully!");
 
-    alert("Job reassigned successfully!");
-
-    // ✅ Re-fetch updated job
-    const updated = await axios.get(`http://localhost:8080/api/jobs/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setJob(updated.data);
-  } catch (err) {
-    alert("Failed to reassign job");
-  }
-};
-
+      const updated = await axios.get(`http://localhost:8080/api/jobs/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setJob(updated.data);
+    } catch (err) {
+      alert("Failed to reassign job");
+    }
+  };
 
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
     setStatus(newStatus);
     try {
-      const res = await axios.put(
+      await axios.put(
         `http://localhost:8080/api/jobs/${id}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -76,59 +72,68 @@ const JobDetail = () => {
     }
   };
 
-  if (!job) return <p>Loading...</p>;
+  if (!job) return <p className="text-white p-10">Loading...</p>;
 
   return (
-    <div className="p-6 w-screen">
-      <h2 className="text-2xl font-bold">{job.title}</h2>
-      <p className="mb-2">Description: {job.description}</p>
-      <p>Assigned to: {job.assigned_to?.username || "Unassigned"}</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-10 mt-6">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold mb-2 text-white">{job.title}</h2>
+        <p className="text-gray-300 mb-4">Description: {job.description}</p>
+        <p className="text-sm text-gray-400 mb-6">
+          Assigned to: {job.assigned_to?.username || "Unassigned"}
+        </p>
 
-      {/* Status Dropdown */}
-      {isPrivileged ? (
-        <div className="my-4">
-          <label className="block text-sm font-medium">Update Status:</label>
-          <select
-            value={status}
-            onChange={handleStatusChange}
-            className="p-2 border rounded w-full"
-          >
-            <option value="PENDING">Pending</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="COMPLETED">Completed</option>
-          </select>
+        {isPrivileged ? (
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-1">
+              Update Status:
+            </label>
+            <select
+              value={status}
+              onChange={handleStatusChange}
+              className="p-2 w-full bg-gray-800 text-white border border-gray-600 rounded"
+            >
+              <option value="PENDING">Pending</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="COMPLETED">Completed</option>
+            </select>
+          </div>
+        ) : (
+          <p>Status: {job.status}</p>
+        )}
+
+        {isPrivileged && (
+          <form onSubmit={handleReassign} className="mb-6 space-y-3">
+            <label className="block text-sm font-medium mb-1">
+              Reassign Job:
+            </label>
+            <select
+              value={assignedTo}
+              onChange={(e) => setAssignedTo(e.target.value)}
+              className="p-2 w-full bg-gray-800 text-white border border-gray-600 rounded"
+              required
+            >
+              <option value="">-- Select User --</option>
+              {users.map((u) => (
+                <option key={u._id} value={u._id}>
+                  {u.username} ({u.role})
+                </option>
+              ))}
+            </select>
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white font-semibold px-4 py-2 rounded"
+            >
+              Reassign
+            </button>
+          </form>
+        )}
+
+        {/* Comments Section */}
+        <div className="mt-10">
+          <CommentSection jobId={id} />
         </div>
-      ) : (
-        <p>Status: {job.status}</p>
-      )}
-
-      {/* Reassign Form */}
-      {isPrivileged && (
-        <form onSubmit={handleReassign} className="mt-4 space-y-2">
-          <label className="block text-sm font-medium">Reassign Job:</label>
-          <select
-            value={assignedTo}
-            onChange={(e) => setAssignedTo(e.target.value)}
-            className="p-2 border rounded w-full"
-            required
-          >
-            <option value="">-- Select User --</option>
-            {users.map((u) => (
-              <option key={u._id} value={u._id}>
-                {u.username} ({u.role})
-              </option>
-            ))}
-          </select>
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Reassign
-          </button>
-        </form>
-      )}
-
-      <CommentSection jobId={id} />
+      </div>
     </div>
   );
 };
