@@ -5,6 +5,6 @@ import { authenticate } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // Add a comment to a job
-router.post("/jobs/:jobId/comments", authenticate, addComment);
+router.post("/jobs/:jobId/comments", authenticate, addComment); //done testing
 
 export default router;

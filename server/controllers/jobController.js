@@ -1,7 +1,7 @@
 import Job from "../models/Job.js";
 import Comment from "../models/Comment.js";
 
-// POST /api/jobs - Create new job
+//  Create new job
 export const createJob = async (req, res) => {
   try {
     const job = new Job({
@@ -15,7 +15,7 @@ export const createJob = async (req, res) => {
   }
 };
 
-// GET /api/jobs - Get all jobs with optional filters
+// Get all jobs with optional filters
 export const getAllJobs = async (req, res) => {
   try {
     const { assigned_to, status } = req.query;
@@ -33,7 +33,7 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
-// GET /api/jobs/:id - Get job details with comments
+// Get job details with comments
 export const getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)
@@ -50,7 +50,7 @@ export const getJobById = async (req, res) => {
   }
 };
 
-// PUT /api/jobs/:id/assign - Assign job to a user
+// Assign job to a user
 export const assignJob = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -68,7 +68,7 @@ export const assignJob = async (req, res) => {
   }
 };
 
-// PUT /api/jobs/:id/status - Update job status
+//  Update job status
 export const updateJobStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -84,7 +84,7 @@ export const updateJobStatus = async (req, res) => {
   }
 };
 
-// DELETE /api/jobs/:id - Admin/Manager only
+//  Admin/Manager only
 export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);

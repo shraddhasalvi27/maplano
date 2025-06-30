@@ -17,6 +17,6 @@ router.get("/", authenticate, getAllJobs);
 router.get("/:id", authenticate, getJobById);
 router.put("/:id/assign", authenticate, assignJob);
 router.put("/:id/status", authenticate, updateJobStatus);
-router.delete("/:id", authenticate, authorizeRoles("ADMIN", "MANAGER"), deleteJob);
+router.delete("/:id", authenticate, authorizeRoles("ADMIN", "MANAGER"), deleteJob);  //done testing
 
 export default router;

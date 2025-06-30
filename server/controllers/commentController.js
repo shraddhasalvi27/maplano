@@ -1,7 +1,7 @@
 import Comment from "../models/Comment.js";
 import Job from "../models/Job.js";
 
-// POST /api/jobs/:jobId/comments
+// jobId-comments
 export const addComment = async (req, res) => {
   const { text } = req.body;
   const { jobId } = req.params;
