@@ -4,6 +4,7 @@ import { useAuth } from "../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 
+//to het all jobs posted by manager
 const Joblist = () => {
   const { token, user } = useAuth();
   const [jobs, setJobs] = useState([]);

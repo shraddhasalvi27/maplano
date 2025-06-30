@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
-
+//It is  a form to create user
 const JobForm = () => {
   const { token, user } = useAuth();
   const [form, setForm] = useState({
@@ -12,7 +12,7 @@ const JobForm = () => {
   });
   const [msg, setMsg] = useState("");
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate(); // ✅ Added navigate
+  const navigate = useNavigate(); //Added navigate
 
   if (!["ADMIN", "MANAGER"].includes(user?.role)) return null;
 
