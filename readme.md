@@ -1,4 +1,3 @@
-Here is the complete `README.md` file content for your **Job Workflow Management System - MAPLANO**, written as a single markdown file ready to be added directly to your project root:
 
 
 # Job Workflow Management System - Maplano
